@@ -132,3 +132,10 @@ function updateQuantity(userItemChoice, newQty) {
     }
   );
 }
+
+module.exports = {
+    updateQuantity: updateQuantity,
+    askInput: askInput,
+    printTable: printTable,
+    runBamazon: runBamazon
+};
