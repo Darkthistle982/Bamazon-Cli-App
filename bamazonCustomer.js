@@ -104,7 +104,8 @@ function askInput() {
             let newQty = response[0].stock_quantity - answer.userDesiredQty;
             let totalCost = answer.userDesiredQty * response[0].price;
             updateQuantity(answer.userItemChoice, newQty);
-            console.log("Total Cost: $" + totalCost);
+            console.log(colors.brightYellow("Total Cost: $" + totalCost));
+            console.log("Thank you for your purchase! Come again!".brightMagenta);
             connection.end();
           } else {
             console.log("Insufficient Quantity.");
