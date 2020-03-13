@@ -22,7 +22,7 @@ function runBamazon() {
     "Welcome to Bamazon! Take a look at our items for sale!".bold.green
   );
   console.log(
-    "---------------------------------------------------------".brightBlue
+    "------------------------------------------------------------".brightBlue
   );
   connection.query(
     "SELECT item_id, product_name, department_name, price, stock_quantity FROM bamazon.products;",
@@ -41,7 +41,7 @@ function runBamazon() {
         storeArray.push(storeObject);
       });
       printTable(result, fields);
-    //   askInput();
+      askInput();
     }
   );
 }
@@ -49,10 +49,20 @@ function runBamazon() {
 function printTable(result, fields) {
   let table = new Table({
     chars: {
-      top: "═", "top-mid": "╤", "top-left": "╔", "top-right": "╗",
-      bottom: "═", "bottom-mid": "╧", "bottom-left": "╚", "bottom-right": "╝",
-      left: "║", "left-mid": "╟", mid: "─", "mid-mid": "┼",
-      right: "║", "right-mid": "╢",
+      top: "═",
+      "top-mid": "╤",
+      "top-left": "╔",
+      "top-right": "╗",
+      bottom: "═",
+      "bottom-mid": "╧",
+      "bottom-left": "╚",
+      "bottom-right": "╝",
+      left: "║",
+      "left-mid": "╟",
+      mid: "─",
+      "mid-mid": "┼",
+      right: "║",
+      "right-mid": "╢",
       middle: "│"
     }
   });
@@ -60,12 +70,64 @@ function printTable(result, fields) {
   table.push([fields[0].name, fields[1].name, fields[3].name]);
 
   result.forEach(element => {
-    table.push([element.item_id, element.product_name, element.price]);
+    table.push([element.item_id, element.product_name, "$" + element.price]);
   });
 
   console.log(table.toString());
 }
 
 function askInput() {
-    
+  inquirer
+    .prompt([
+      {
+        type: "number",
+        message:
+          "What is the item_id number of the product you would like to purchase?",
+        name: "userItemChoice"
+      },
+      {
+        type: "number",
+        message: "How many would you like to purchase?",
+        name: "userDesiredQty"
+      }
+    ])
+    .then(function(answer) {
+      connection.query(
+        "SELECT * FROM products WHERE ?",
+        {
+          item_id: answer.userItemChoice
+        },
+        function(error, response) {
+          if (error) throw error;
+          if (response[0].stock_quantity >= answer.userDesiredQty) {
+            console.log("Confirming Purchase!");
+            let newQty = response[0].stock_quantity - answer.userDesiredQty;
+            let totalCost = answer.userDesiredQty * response[0].price;
+            updateQuantity(answer.userItemChoice, newQty);
+            console.log("Total Cost: $" + totalCost);
+            connection.end();
+          } else {
+            console.log("Insufficient Quantity.");
+            askInput();
+          }
+        }
+      );
+    });
+}
+
+function updateQuantity(userItemChoice, newQty) {
+  connection.query(
+    "UPDATE products SET ? WHERE ?",
+    [
+      {
+        stock_quantity: newQty
+      },
+      {
+        item_id: userItemChoice
+      }
+    ],
+    function(err, res) {
+      if (err) throw err;
+    }
+  );
 }
