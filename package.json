@@ -1,0 +1,24 @@
+{
+  "name": "bamazon-cli-app",
+  "version": "1.0.0",
+  "description": "A client based app to behave like a basic online store",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Darkthistle982/Bamazon-Cli-App.git"
+  },
+  "author": "Brian Allen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Darkthistle982/Bamazon-Cli-App/issues"
+  },
+  "homepage": "https://github.com/Darkthistle982/Bamazon-Cli-App#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "colors": "^1.4.0",
+    "inquirer": "^7.1.0"
+  }
+}
