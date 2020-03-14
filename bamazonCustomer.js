@@ -83,9 +83,9 @@ function wantToBuy() {
       }
     ])
     .then(function(response) {
-      if (response === true) {
+      if (response.wantToBuy === true) {
         askInput();
-      } else {
+      } else if (response.wantToBuy === false) {
         console.log(
           "Sorry we didn't have what you were looking for. See you soon!".italic
             .brightRed
