@@ -41,7 +41,7 @@ function runBamazon() {
         storeArray.push(storeObject);
       });
       printTable(result, fields);
-      askInput();
+      wantToBuy();
     }
   );
 }
@@ -66,14 +66,33 @@ function printTable(result, fields) {
       middle: "│"
     }
   });
-
   table.push([fields[0].name, fields[1].name, fields[3].name]);
-
   result.forEach(element => {
     table.push([element.item_id, element.product_name, "$" + element.price]);
   });
+  console.log(colors.brightWhite(table.toString()));
+}
 
-  console.log(table.toString());
+function wantToBuy() {
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        message: "Would you like to purchase one of these items?",
+        name: "wantToBuy"
+      }
+    ])
+    .then(function(response) {
+      if (response === true) {
+        askInput();
+      } else {
+        console.log(
+          "Sorry we didn't have what you were looking for. See you soon!".italic
+            .brightRed
+        );
+        connection.end();
+      }
+    });
 }
 
 function askInput() {
@@ -105,7 +124,9 @@ function askInput() {
             let totalCost = answer.userDesiredQty * response[0].price;
             updateQuantity(answer.userItemChoice, newQty);
             console.log(colors.brightYellow("Total Cost: $" + totalCost));
-            console.log("Thank you for your purchase! Come again!".brightMagenta);
+            console.log(
+              "Thank you for your purchase! Come again!".brightMagenta
+            );
             connection.end();
           } else {
             console.log("Insufficient Quantity.");
@@ -134,8 +155,8 @@ function updateQuantity(userItemChoice, newQty) {
 }
 
 module.exports = {
-    updateQuantity: updateQuantity,
-    askInput: askInput,
-    printTable: printTable,
-    runBamazon: runBamazon
+  updateQuantity: updateQuantity,
+  askInput: askInput,
+  printTable: printTable,
+  runBamazon: runBamazon
 };
