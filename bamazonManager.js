@@ -19,8 +19,6 @@ connection.connect(function(error) {
 function runBamazonManager() {
   console.log(colors.brightGreen(`
 Welcome to Bamazon Manager View.
-
-
 `));  
   inquirer.prompt([
       {
