@@ -47,8 +47,7 @@ Welcome to Bamazon Manager View.
           viewLowInventory();
           break;
         case "Add to Inventory":
-          // addToInventory();
-          console.log("Add to Inventory Selected");
+          addToInventory();
           break;
         case "Add New Product":
           // addNewProduct();
@@ -118,16 +117,57 @@ function printTable(result, fields) {
 }
 
 function viewLowInventory() {
-  connection.query("SELECT * FROM products WHERE stock_quantity < 5",
-    function(error, result) {
-      if (error) throw error;
-      result.forEach(element=> {
-        console.log(colors.brightCyan(`
-        Item ID: ${element.item_id}
-        Product: ${element.product_name}
-        Quantity: ${element.stock_quantity}
-        `));
+  connection.query("SELECT * FROM products WHERE stock_quantity < 5", function(
+    error,
+    result
+  ) {
+    if (error) throw error;
+    if (result === []) {
+      result.forEach(element => {
+        console.log(
+          colors.brightCyan(`
+          Item ID: ${element.item_id}
+          Product: ${element.product_name}
+          Quantity: ${element.stock_quantity}
+          `)
+        );
       });
-      runBamazonManager()
+      runBamazonManager();
+    }
+    else {
+      console.log("No Inventory items are currently low in stock!");
+      runBamazonManager();
+    }
+  });
+}
+
+function addToInventory() {
+  inquirer
+    .prompt([
+      {
+        type: "number",
+        message:
+          "Enter the Item ID you would like to add to current inventory.",
+        name: "item_id"
+      },
+      {
+        type: "number",
+        message:
+          "Please enter the number of items you would like added to the inventory.",
+        name: "qtyToAdd"
+      }
+    ])
+    .then(function(response) {
+      console.log("Updating Inventory.".bold.brightGreen);
+      connection.query(
+        `UPDATE products SET stock_quantity = stock_quantity + ${response.qtyToAdd} WHERE item_id = ${response.item_id}`,
+        function(error, result) {
+          if (error) throw error;
+          console.log(
+            colors.bold.brightYellow("Item added to Inventory Successfully")
+          );
+          runBamazonManager();
+        }
+      );
     });
-};
+}
