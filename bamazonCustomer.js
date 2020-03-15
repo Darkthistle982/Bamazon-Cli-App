@@ -64,7 +64,8 @@ function printTable(result, fields) {
       right: "║",
       "right-mid": "╢",
       middle: "│"
-    }
+    },
+    style: {'padding-left': 3, 'padding-right': 2} 
   });
   table.push([fields[0].name, fields[1].name, fields[3].name]);
   result.forEach(element => {
