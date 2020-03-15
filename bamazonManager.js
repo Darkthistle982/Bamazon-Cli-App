@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const colors = require("colors");
+const Table = require("cli-table");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -40,8 +41,7 @@ Welcome to Bamazon Manager View.
     .then(function(resp) {
       switch (resp.action) {
         case "View Products for Sale":
-          // viewProducts();
-          console.log("View Products selected.");
+          viewProducts();
           break;
         case "View Low Inventory":
           // viewLowInventory();
@@ -60,8 +60,53 @@ Welcome to Bamazon Manager View.
           connection.end();
       }
     });
-};
+}
 
 function viewProducts() {
+  connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM bamazon.products;",
+    function(error, result, fields) {
+      if (error) throw error;
+      let storeData = result;
+      storeArray = [];
+      storeData.forEach(element => {
+        let storeObject = {
+          id: element.item_id,
+          name: element.product_name,
+          deptName: element.department_name,
+          price: element.price,
+          qty: element.stock_quantity
+        };
+        storeArray.push(storeObject);
+      });
+      printTable(result, fields);
+    });
+}
 
+function printTable(result, fields) {
+  let table = new Table({
+    chars: {
+      top: "═",
+      "top-mid": "╤",
+      "top-left": "╔",
+      "top-right": "╗",
+      bottom: "═",
+      "bottom-mid": "╧",
+      "bottom-left": "╚",
+      "bottom-right": "╝",
+      left: "║",
+      "left-mid": "╟",
+      mid: "─",
+      "mid-mid": "┼",
+      right: "║",
+      "right-mid": "╢",
+      middle: "│"
+    },
+    style: {'padding-left': 3, 'padding-right': 2} 
+  });
+  table.push([fields[0].name, fields[1].name, fields[3].name, fields[4].name]);
+  result.forEach(element => {
+    table.push([element.item_id, element.product_name, "$" + element.price, element.stock_quantity]);
+  });
+  console.log(colors.brightWhite(table.toString()));
+  runBamazonManager();
 }
