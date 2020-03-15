@@ -50,8 +50,7 @@ Welcome to Bamazon Manager View.
           addToInventory();
           break;
         case "Add New Product":
-          // addNewProduct();
-          console.log("Add new Product selected");
+          addNewProduct();
           break;
         case "Exit":
           console.log(colors.bold.brightYellow("Thanks! See you next time!"));
@@ -170,4 +169,32 @@ function addToInventory() {
         }
       );
     });
+}
+
+
+function addNewProduct () {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the Name of the product to be added to the store?",
+      name: "product_name"
+    },
+    {
+      type: "input",
+      message: "What department would this product belong to?",
+      name: "department_name"
+    },
+    {
+      type: "number",
+      message: "What is the single item price of this product?",
+      name: "price"
+    },
+    {
+      type: "number",
+      message: "How many of these items are you adding to the inventory?",
+      name: "stock_quantity"
+    }
+  ]).then(function(error, result) {
+    
+  })
 }
