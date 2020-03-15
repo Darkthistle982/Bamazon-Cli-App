@@ -44,8 +44,7 @@ Welcome to Bamazon Manager View.
           viewProducts();
           break;
         case "View Low Inventory":
-          // viewLowInventory();
-          console.log("View Low Inventory selected");
+          viewLowInventory();
           break;
         case "Add to Inventory":
           // addToInventory();
@@ -63,7 +62,8 @@ Welcome to Bamazon Manager View.
 }
 
 function viewProducts() {
-  connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM bamazon.products;",
+  connection.query(
+    "SELECT item_id, product_name, department_name, price, stock_quantity FROM bamazon.products;",
     function(error, result, fields) {
       if (error) throw error;
       let storeData = result;
@@ -79,7 +79,8 @@ function viewProducts() {
         storeArray.push(storeObject);
       });
       printTable(result, fields);
-    });
+    }
+  );
 }
 
 function printTable(result, fields) {
@@ -101,12 +102,32 @@ function printTable(result, fields) {
       "right-mid": "╢",
       middle: "│"
     },
-    style: {'padding-left': 3, 'padding-right': 2} 
+    style: { "padding-left": 3, "padding-right": 2 }
   });
   table.push([fields[0].name, fields[1].name, fields[3].name, fields[4].name]);
   result.forEach(element => {
-    table.push([element.item_id, element.product_name, "$" + element.price, element.stock_quantity]);
+    table.push([
+      element.item_id,
+      element.product_name,
+      "$" + element.price,
+      element.stock_quantity
+    ]);
   });
   console.log(colors.brightWhite(table.toString()));
   runBamazonManager();
 }
+
+function viewLowInventory() {
+  connection.query("SELECT * FROM products WHERE stock_quantity < 5",
+    function(error, result) {
+      if (error) throw error;
+      result.forEach(element=> {
+        console.log(colors.brightCyan(`
+        Item ID: ${element.item_id}
+        Product: ${element.product_name}
+        Quantity: ${element.stock_quantity}
+        `));
+      });
+      runBamazonManager()
+    });
+};
