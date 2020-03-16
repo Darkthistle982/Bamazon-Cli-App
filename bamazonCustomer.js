@@ -36,7 +36,8 @@ function runBamazon() {
           name: element.product_name,
           deptName: element.department_name,
           price: element.price,
-          qty: element.stock_quantity
+          qty: element.stock_quantity,
+          sales: element.product_sales
         };
         storeArray.push(storeObject);
       });
@@ -65,7 +66,7 @@ function printTable(result, fields) {
       "right-mid": "╢",
       middle: "│"
     },
-    style: {'padding-left': 3, 'padding-right': 2} 
+    style: { "padding-left": 3, "padding-right": 2 }
   });
   table.push([fields[0].name, fields[1].name, fields[3].name]);
   result.forEach(element => {
@@ -124,6 +125,7 @@ function askInput() {
             let newQty = response[0].stock_quantity - answer.userDesiredQty;
             let totalCost = answer.userDesiredQty * response[0].price;
             updateQuantity(answer.userItemChoice, newQty);
+            updateSales(answer.userItemChoice, totalCost);
             console.log(colors.brightYellow("Total Cost: $" + totalCost));
             console.log(
               "Thank you for your purchase! Come again!".brightMagenta
@@ -136,6 +138,23 @@ function askInput() {
         }
       );
     });
+}
+
+function updateSales(userItemChoice, totalCost) {
+  connection.query(
+    "UPDATE products SET ? WHERE ?",
+    [
+      {
+        product_sales: totalCost
+      },
+      {
+        item_id: userItemChoice
+      }
+    ],
+    function(err) {
+      if (err) throw err;
+    }
+  );
 }
 
 function updateQuantity(userItemChoice, newQty) {
