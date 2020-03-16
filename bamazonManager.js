@@ -194,7 +194,8 @@ function addNewProduct () {
       message: "How many of these items are you adding to the inventory?",
       name: "stock_quantity"
     }
-  ]).then(function(error, result) {
-    
+  ]).then(function(answer) {
+    console.log("Updating Inventory".brightCyan);
+    connection.query(`INSERT`)
   })
 }
