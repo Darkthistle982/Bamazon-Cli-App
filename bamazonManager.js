@@ -121,7 +121,7 @@ function viewLowInventory() {
     result
   ) {
     if (error) throw error;
-    if (result === []) {
+    if (result !== []) {
       result.forEach(element => {
         console.log(
           colors.brightCyan(`
@@ -134,7 +134,7 @@ function viewLowInventory() {
       runBamazonManager();
     }
     else {
-      console.log("No Inventory items are currently low in stock!");
+      console.log("No Inventory items are currently low in stock!".bold.brightRed);
       runBamazonManager();
     }
   });
@@ -196,6 +196,11 @@ function addNewProduct () {
     }
   ]).then(function(answer) {
     console.log("Updating Inventory".brightCyan);
-    connection.query(`INSERT`)
+    connection.query(`INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ("${answer.product_name}", "${answer.department_name}", ${answer.price}, ${answer.stock_quantity})`,
+    function(error, result) {
+      if (error) throw error;
+      console.log(colors.bold.brightCyan(answer.product_name + " successfully added to inventory!"));
+      runBamazonManager();
+    })
   })
 }
