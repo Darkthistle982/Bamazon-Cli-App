@@ -35,10 +35,12 @@ function runBamazonSupervisor() {
     .then(function(resp) {
       switch (resp.action) {
         case "View Product Sales by Department":
-          viewProductSales();
+        //   viewProductSales();
+          console.log("View Product Sales by Department selected".zebra)
           break;
         case "Create New Department":
-          createNewDepartment();
+        //   createNewDepartment();
+          console.log("Create New Department selected".zebra)
           break;
         case "Exit":
           console.log(colors.bold.brightYellow("Thanks! See you next time!"));
@@ -47,3 +49,8 @@ function runBamazonSupervisor() {
     });
 }
 
+function viewProductSales() {
+    connection.query(
+        "SELECT product_sales FROM bamazon.products"
+    )
+}
