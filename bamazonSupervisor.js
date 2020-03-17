@@ -121,7 +121,11 @@ function createNewDepartment() {
       {
         type: "number",
         message: "Please enter the over head costs for this department.",
-        name: "overHeadCost"
+        name: "overHeadCost",
+        validate: function (value) {
+            let reg = /^\d+$/;
+            return reg.test(value) || "Over Head Cost should be a number.";
+        }
       }
     ])
     .then(function(answer) {
