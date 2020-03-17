@@ -104,12 +104,20 @@ function askInput() {
         type: "number",
         message:
           "What is the item_id number of the product you would like to purchase?",
-        name: "userItemChoice"
+        name: "userItemChoice",
+        validate: function(value) {
+          let reg = /^\d+$/;
+          return reg.test(value) || "Must be a number.";
+        }
       },
       {
         type: "number",
         message: "How many would you like to purchase?",
-        name: "userDesiredQty"
+        name: "userDesiredQty",
+        validate: function(value) {
+          let reg = /^\d+$/;
+          return reg.test(value) || "Must be a number.";
+        }
       }
     ])
     .then(function(answer) {
