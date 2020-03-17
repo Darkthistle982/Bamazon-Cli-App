@@ -132,7 +132,11 @@ function createNewDepartment() {
     .then(function(answer) {
       console.log("Updating Departments".brightCyan);
       connection.query(
-        `INSERT INTO departments (department_name, over_head_costs) VALUES ("${answer.deptName}", ${answer.overHeadCost})`,
+        "INSERT INTO departments SET ?",
+        {
+            department_name: answer.depName,
+            over_head_costs: answer.overHeadCost
+        },
         function(error) {
           if (error) throw error;
           console.log(
