@@ -127,10 +127,10 @@ function askInput() {
             updateQuantity(answer.userItemChoice, newQty);
             updateSales(answer.userItemChoice, totalCost);
             console.log(colors.brightYellow("Total Cost: $" + totalCost));
-            console.log(
-              "Thank you for your purchase! Come again!".brightMagenta
-            );
-            connection.end();
+            console.log("Thank you for your purchase!".brightMagenta);
+            setTimeout(function() {
+              runBamazon();
+            }, 5 * 1000);
           } else {
             console.log("Insufficient Quantity.");
             askInput();
@@ -173,10 +173,3 @@ function updateQuantity(userItemChoice, newQty) {
     }
   );
 }
-
-module.exports = {
-  updateQuantity: updateQuantity,
-  askInput: askInput,
-  printTable: printTable,
-  runBamazon: runBamazon
-};
