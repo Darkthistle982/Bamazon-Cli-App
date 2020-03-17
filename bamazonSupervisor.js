@@ -35,12 +35,11 @@ function runBamazonSupervisor() {
     .then(function(resp) {
       switch (resp.action) {
         case "View Product Sales by Department":
-        //   viewProductSales();
-          console.log("View Product Sales by Department selected".zebra)
+          viewProductSales();
           break;
         case "Create New Department":
-        //   createNewDepartment();
-          console.log("Create New Department selected".zebra)
+          //   createNewDepartment();
+          console.log("Create New Department selected".zebra);
           break;
         case "Exit":
           console.log(colors.bold.brightYellow("Thanks! See you next time!"));
@@ -50,7 +49,64 @@ function runBamazonSupervisor() {
 }
 
 function viewProductSales() {
-    connection.query(
-        "SELECT product_sales FROM bamazon.products"
-    )
+  connection.query(
+    "SELECT d.*, SUM(p.product_sales) AS product_sales, (SUM(p.product_sales) - d.over_head_costs) AS total_profit FROM departments d LEFT JOIN products p ON d.department_name = p.department_name GROUP BY d.department_id;",
+    function(error, result, fields) {
+      if (error) throw error;
+      let storeData = result;
+      storeArray = [];
+      storeData.forEach(element => {
+        let storeObject = {
+          id: element.department_id,
+          deptName: element.department_name,
+          overHead: element.over_head_costs,
+          sales: element.product_sales,
+          profit: element.total_profit
+        };
+        storeArray.push(storeObject);
+      });
+      printTable(result, fields);
+    }
+  );
+}
+
+function printTable(result, fields) {
+  let table = new Table({
+    chars: {
+      top: "═",
+      "top-mid": "╤",
+      "top-left": "╔",
+      "top-right": "╗",
+      bottom: "═",
+      "bottom-mid": "╧",
+      "bottom-left": "╚",
+      "bottom-right": "╝",
+      left: "║",
+      "left-mid": "╟",
+      mid: "─",
+      "mid-mid": "┼",
+      right: "║",
+      "right-mid": "╢",
+      middle: "│"
+    },
+    style: { "padding-left": 3, "padding-right": 2 }
+  });
+  table.push([
+    fields[0].name,
+    fields[1].name,
+    fields[2].name,
+    fields[3].name,
+    fields[4].name
+  ]);
+  result.forEach(element => {
+    table.push([
+      element.department_id,
+      element.department_name,
+      '$' + element.over_head_costs,
+      '$' + element.product_sales,
+      '$' + element.total_profit
+    ]);
+  });
+  console.log(colors.brightWhite(table.toString()));
+  runBamazonSupervisor();
 }
