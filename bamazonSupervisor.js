@@ -38,8 +38,7 @@ function runBamazonSupervisor() {
           viewProductSales();
           break;
         case "Create New Department":
-          //   createNewDepartment();
-          console.log("Create New Department selected".zebra);
+          createNewDepartment();
           break;
         case "Exit":
           console.log(colors.bold.brightYellow("Thanks! See you next time!"));
@@ -102,11 +101,40 @@ function printTable(result, fields) {
     table.push([
       element.department_id,
       element.department_name,
-      '$' + element.over_head_costs,
-      '$' + element.product_sales,
-      '$' + element.total_profit
+      "$" + element.over_head_costs,
+      "$" + element.product_sales,
+      "$" + element.total_profit
     ]);
   });
   console.log(colors.brightWhite(table.toString()));
   runBamazonSupervisor();
+}
+
+function createNewDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Please enter the name of the new department.",
+        name: "depName"
+      },
+      {
+        type: "number",
+        message: "Please enter the over head costs for this department.",
+        name: "overHeadCost"
+      }
+    ])
+    .then(function(answer) {
+      console.log("Updating Departments".brightCyan);
+      connection.query(
+        `INSERT INTO departments (department_name, over_head_costs) VALUES ('${answer.deptName}', ${answer.overHeadCost})`,
+        function(error) {
+          if (error) throw error;
+          console.log(
+            colors.bold.brightCyan(answer.depName + " added to the database.")
+          );
+          runBamazonSupervisor();
+        }
+      );
+    });
 }
