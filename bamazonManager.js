@@ -147,13 +147,21 @@ function addToInventory() {
         type: "number",
         message:
           "Enter the Item ID you would like to add to current inventory.",
-        name: "item_id"
+        name: "item_id",
+        validate: function(value) {
+          let reg = /^\d+$/;
+          return reg.test(value) || "Must be a number.";
+        }
       },
       {
         type: "number",
         message:
           "Please enter the number of items you would like added to the inventory.",
-        name: "qtyToAdd"
+        name: "qtyToAdd",
+        validate: function(value) {
+          let reg = /^\d+$/;
+          return reg.test(value) || "Must be a number.";
+        }
       }
     ])
     .then(function(response) {
@@ -187,12 +195,20 @@ function addNewProduct () {
     {
       type: "number",
       message: "What is the single item price of this product?",
-      name: "price"
+      name: "price",
+      validate: function(value) {
+        let reg = /^\d+$/;
+        return reg.test(value) || "Must be a number.";
+      }
     },
     {
       type: "number",
       message: "How many of these items are you adding to the inventory?",
-      name: "stock_quantity"
+      name: "stock_quantity",
+      validate: function(value) {
+        let reg = /^\d+$/;
+        return reg.test(value) || "Must be a number.";
+      }
     }
   ]).then(function(answer) {
     console.log("Updating Inventory".brightCyan);
