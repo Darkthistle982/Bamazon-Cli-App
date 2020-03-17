@@ -197,7 +197,7 @@ function addNewProduct () {
   ]).then(function(answer) {
     console.log("Updating Inventory".brightCyan);
     connection.query(`INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ("${answer.product_name}", "${answer.department_name}", ${answer.price}, ${answer.stock_quantity})`,
-    function(error, result) {
+    function(error) {
       if (error) throw error;
       console.log(colors.bold.brightCyan(answer.product_name + " successfully added to inventory!"));
       runBamazonManager();
