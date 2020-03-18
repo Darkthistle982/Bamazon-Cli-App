@@ -55,28 +55,28 @@ This is a terminal application that utilizes node.js to run a series of differen
 ![bamazon customer purchase](./images/bamazon_customer_purchase.png)
 
 ### bamazonCustomer.js Exit
-![bamazon customer Exit](.images/bamazon_customer_exit.png)
+![bamazon customer Exit](./images/bamazon_customer_exit.png)
 
 ### bamazonManager.js Login
-![bamazon manager login](.images/bamazon_manager_login.png)
+![bamazon manager login](./images/bamazon_manager_login.png)
 
 ### bamazonManager.js View Products
-![bamazon manager View Products](.images/bamazon_manager_view_products.png)
+![bamazon manager View Products](./images/bamazon_manager_view_products.png)
 
 ### bamazonManager.js Low Inventory
-![bamazon manager low inventory](.images/bamazon_manager_view_low_inventory.png)
+![bamazon manager low inventory](./images/bamazon_manager_view_low_inventory.png)
 
 ### bamazonManager.js Add Inventory
-![bamazon manager add inventory](.images/bamazon_manager_add_to_inventory.png)
+![bamazon manager add inventory](./images/bamazon_manager_add_to_inventory.png)
 
 ### bamazonManager.js Add New Product
-![bamazon manager add new product](.images/bamazon_manager_add_new_product.png)
+![bamazon manager add new product](./images/bamazon_manager_add_new_product.png)
 
 ### bamazonSupervisor.js Login
-![bamazon supervisor Login](.images/bamazon_supervisor_login.png)
+![bamazon supervisor Login](./images/bamazon_supervisor_login.png)
 
 ### bamazonSupervisor.js View Sales
-![bamazon supervisor View Sales](.images/bamazon_supervisor_view_sales_by_dept.png)
+![bamazon supervisor View Sales](./images/bamazon_supervisor_view_sales_by_dept.png)
 
 ### bamazonSupervisor.js Create Department
-![bamazon supervisor Create New Department](.images/bamazon_supervisor_create_new_department.png)
+![bamazon supervisor Create New Department](./images/bamazon_supervisor_create_new_department.png)
